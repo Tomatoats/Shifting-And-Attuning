@@ -16,10 +16,10 @@ public class Main {
                 lines++;
                 String str = in.nextLine();
                 System.out.println(str);
-                //if you're doing affines, make sure only AffineAndPrint is up
-                //if you're doing shifts, make sure only ShiftAndPrint is up
-                ShiftAndPrint(str, total);
-                //AffineAndPrint(str);
+                //if you're doing affines, make sure only Affine is up
+                //if you're doing shifts, make sure only Shift is up
+                //Shift(str, total);
+                Affine(str, total);
 
             }
         } catch (IOException | NoSuchElementException | IllegalStateException e) {
@@ -27,11 +27,33 @@ public class Main {
         }
         //if you're only doing shift ciphers, comment out printAffine
         // and make sure printShift is up.
-        printShift(total, lines);
+        //printShift(total, lines);
         //if you're doing affine ciphers, only do printAffine
+        printAffine(total);
 
     }
-    static void ShiftAndPrint(String str, ArrayList totalSt) throws FileNotFoundException {
+
+
+    private static void Affine(String str, ArrayList total) {
+        char[] strar = str.toCharArray();
+        int len = strar.length;
+        char[] newstrar = new char[len];
+        int[] slope = {1, 3, 5, 7, 9, 11, 25, 23, 21, 19, 17, 15};
+        for (int k = 0; k < 12; k++)
+            for (int i = 0; i < 26; i++) {
+                for (int j = 0; j < strar.length; j++) {
+                    int toBe = (int) (strar[j]) -97;
+                    int currentChain = (toBe *slope[k]) + (i+1);
+                    int finalMove = (currentChain %26) +97;
+                    //int toBe = ((((((int) (strar[j])) - 97) + add) % 26) + 97);
+                    newstrar[j] = (char) finalMove;
+            }
+                String newString = String.valueOf(newstrar);
+                total.add(newString);
+        }
+    }
+
+    static void Shift(String str, ArrayList total) throws FileNotFoundException {
         char[] strar = str.toCharArray();
         int len = strar.length;
         char[] newstrar = new char[len];
@@ -48,7 +70,7 @@ public class Main {
             }
             String newString = String.valueOf(newstrar);
             //System.out.printf("i is %d\n newstrar is %s\n", i, newString);
-            totalSt.add(newString);
+            total.add(newString);
             //System.out.printf("and now total[%d] should also be %s\n", i, Total[i]);
         }
 
@@ -60,6 +82,16 @@ public class Main {
             for (int i = 0; i < lines*26; i++) {
                 System.out.println(totalSt.get(i));
             }
+        System.out.printf("\n");
+
+    }
+    private static void printAffine(ArrayList<String> total) throws FileNotFoundException {
+        PrintStream out = new PrintStream(new FileOutputStream("out.txt"));
+        System.setOut(out);
+
+        for (int i = 0; i < 12*26; i++) {
+            System.out.println(total.get(i));
+        }
         System.out.printf("\n");
 
     }
