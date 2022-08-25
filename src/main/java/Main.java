@@ -35,6 +35,7 @@ public class Main {
 
 
     private static void Affine(String str, ArrayList total) {
+        int counter = 1;
         char[] strar = str.toCharArray();
         int len = strar.length;
         char[] newstrar = new char[len];
@@ -47,9 +48,13 @@ public class Main {
                     int finalMove = (currentChain %26) +97;
                     //int toBe = ((((((int) (strar[j])) - 97) + add) % 26) + 97);
                     newstrar[j] = (char) finalMove;
-            }
+                }
+                //IF you want to find a specific line to encrypt, uncomment the print line
+                //and also put the plaintext into in.txt
+                //System.out.printf("slope %d , add %d, it will be line %d\n", slope[k], i+1,counter);
                 String newString = String.valueOf(newstrar);
                 total.add(newString);
+                counter++;
         }
     }
 
